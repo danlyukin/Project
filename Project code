@@ -1,1 +1,31 @@
 
+car_brands = {}
+
+
+workbook = openpyxl.load_workbook('data/electric_cars.xlsx')
+
+
+sheet = workbook.active
+
+
+for row in sheet.iter_rows(values_only=True):
+    
+    for brand in row:
+  
+        if brand:
+ъ
+            if brand in car_brands:
+                car_brands[brand] += 1
+            
+            else:
+                car_brands[brand] = 1
+
+
+workbook.close()
+
+
+most_popular_brands = sorted(car_brands.items(), key=lambda x: x[1], reverse=True)[:5]
+
+
+for brand, count in most_popular_brands:
+    print(f"{brand}: {count} упоминаний")
