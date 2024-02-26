@@ -1,31 +1,48 @@
+car_makes = {}
 
-car_brands = {}
-
-
-workbook = openpyxl.load_workbook('data/electric_cars.xlsx')
-
+workbook = openpyxl.load_workbook('cars.xlsx')
 
 sheet = workbook.active
 
-
 for row in sheet.iter_rows(values_only=True):
     
-    for brand in row:
+    for make in row:
   
-        if brand:
-ъ
-            if brand in car_brands:
-                car_brands[brand] += 1
+        if make:
+
+            if make in car_makes:
+                car_makes[make] += 1
             
             else:
-                car_brands[brand] = 1
-
+                car_makes[make] = 1
 
 workbook.close()
 
+most_popular_makes = sorted(car_makes.items(), key=lambda x: x[1], reverse=True)[:5]
 
-most_popular_brands = sorted(car_brands.items(), key=lambda x: x[1], reverse=True)[:5]
+for make, count in most_popular_makes:
+    print(f"{make}: {count} упоминаний")
 
 
-for brand, count in most_popular_brands:
-    print(f"{brand}: {count} упоминаний")
+
+import pandas as pd
+
+df = pd.read_excel('cars.xlsx') 
+
+popular_models = df['Model'].value_counts()
+
+print("Самые популярные модели электромобилей:")
+print(popular_models.head(10))  
+
+
+
+import pandas as pd
+
+cars_data = pd.read_excel('cars.xlsx')
+
+grouped_data = cars_data.groupby(['Model Year', 'Electric Vehicle Type']).size().unstack(fill_value=0)
+
+for year, row in grouped_data.iterrows():
+    popular_type = 'BEVs' if row['BEVs'] > row['PHEVs'] else 'PHEVs'
+    print(f"В {model year} году более популярен тип: {popular_electric vehicle type}")
+
